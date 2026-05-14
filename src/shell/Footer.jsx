@@ -8,7 +8,7 @@ export default function Footer() {
       background: T.paperDark, marginTop: 60,
     }}>
       <div style={{
-        width: "min(95%, 2400px)", margin: "0 auto", padding: "26px 0",
+        width: "min(99%, 2600px)", margin: "0 auto", padding: "26px 0",
         display: "flex", justifyContent: "space-between", alignItems: "center",
         fontFamily: FONTS.sans, fontSize: 13, color: T.ink3,
       }}>

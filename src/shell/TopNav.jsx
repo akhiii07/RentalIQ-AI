@@ -63,7 +63,7 @@ function StatsStrip() {
   return (
     <div style={{ borderTop: `1px solid ${T.divider}`, background: T.paperDark }}>
       <div style={{
-        width: "min(95%, 2400px)", margin: "0 auto", padding: "8px 0",
+        width: "min(99%, 2600px)", margin: "0 auto", padding: "8px 0",
         display: "flex", gap: 32, alignItems: "center",
         fontFamily: FONTS.mono, fontSize: 12.5, color: T.ink3, letterSpacing: 0.5,
       }}>
@@ -87,7 +87,7 @@ export default function TopNav({ onLogoClick }) {
       background: T.paper, position: "sticky", top: 0, zIndex: 30,
     }}>
       <div style={{
-        width: "min(95%, 2400px)", margin: "0 auto", padding: "16px 0",
+        width: "min(99%, 2600px)", margin: "0 auto", padding: "16px 0",
         display: "flex", alignItems: "center", gap: 22,
       }}>
         <Logo onClick={onLogoClick} />

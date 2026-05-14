@@ -69,13 +69,22 @@ export default function App() {
       <TopNav onLogoClick={() => setView(VIEWS.EXPLORE)} />
 
       <main style={{
-        width: "min(95%, 2400px)", margin: "0 auto",
+        width: "min(99%, 2600px)", margin: "0 auto",
         padding: "32px 0 96px",
       }}>
         {view === VIEWS.EXPLORE && (
           <div>
             <ExploreHero />
-            <ExploreView onSelectApartment={handleSelectApartment} />
+            {/* Viewport breakout — Explore card escapes the main cap so the
+                map uses essentially the full viewport width. */}
+            <div style={{
+              width: "100vw", position: "relative",
+              left: "50%", transform: "translateX(-50%)",
+              paddingLeft: "max(8px, 0.5vw)", paddingRight: "max(8px, 0.5vw)",
+              boxSizing: "border-box",
+            }}>
+              <ExploreView onSelectApartment={handleSelectApartment} />
+            </div>
           </div>
         )}
 
