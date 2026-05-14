@@ -1,31 +1,22 @@
 import React, { useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Polygon, useMap } from "react-leaflet";
 import L from "leaflet";
 import { T } from "../../theme";
-import { LOCALITIES } from "../../data";
+import { LOCALITIES, BLR_BOUNDS, findLocality, findAptsInLocality } from "../../data";
 import { fmtINRk } from "../../utils";
 
-const CENTER = [12.945, 77.655];
-const ZOOM = 12;
+const CENTER = [12.955, 77.620];
 
-function FlyToSelected({ selectedId }) {
-  const map = useMap();
-  useEffect(() => {
-    if (!selectedId) return;
-    const loc = LOCALITIES.find((l) => l.id === selectedId);
-    if (loc) map.flyTo([loc.lat, loc.lng], 14, { duration: 0.7 });
-  }, [selectedId, map]);
-  return null;
-}
+// --- icon factories ---------------------------------------------------------
 
-function buildIcon(loc, selected, hovered) {
+function localityPillIcon(loc, selected, hovered) {
   const state = selected ? "sel" : hovered ? "hov" : "";
   const dot = T.heat[loc.heat];
   const arrow = loc.trend >= 0 ? "↑" : "↓";
   return L.divIcon({
     className: "riq-marker-wrap",
     html: `
-      <div class="riq-marker ${state}" data-id="${loc.id}">
+      <div class="riq-marker ${state}">
         <div class="riq-pill">
           <span class="riq-dot" style="background:${dot}"></span>
           <span class="riq-price">${fmtINRk(loc.avgRent)}</span>
@@ -38,52 +29,165 @@ function buildIcon(loc, selected, hovered) {
   });
 }
 
-function LocalityPin({ loc, selected, hovered, onSelect, setHover }) {
+function aptPillIcon(apt, hovered) {
+  return L.divIcon({
+    className: "riq-marker-wrap",
+    html: `
+      <div class="riq-apt ${hovered ? "hov" : ""}">
+        <div class="riq-apt-pill">${fmtINRk(apt.rent)}</div>
+        <div class="riq-apt-label">${apt.bhk}BHK · ${apt.name}</div>
+      </div>`,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
+  });
+}
+
+// --- map controllers --------------------------------------------------------
+
+// Animate camera to (lat,lng) at target zoom when drilled-in changes.
+function DrillController({ drilledInto }) {
+  const map = useMap();
+  useEffect(() => {
+    if (drilledInto) {
+      const loc = findLocality(drilledInto);
+      if (loc) map.flyTo([loc.lat, loc.lng], 15, { duration: 0.9 });
+    } else {
+      map.flyTo(CENTER, 11.5, { duration: 0.9 });
+    }
+  }, [drilledInto, map]);
+  return null;
+}
+
+// --- marker components ------------------------------------------------------
+
+function LocalityZone({ loc, selected, hovered, onSelect, setHover }) {
+  const fill = T.heat[loc.heat];
   const icon = useMemo(
-    () => buildIcon(loc, selected, hovered),
-    [loc.id, loc.avgRent, loc.name, loc.trend, selected, hovered]
+    () => localityPillIcon(loc, selected, hovered),
+    [loc.id, loc.avgRent, loc.trend, selected, hovered]
   );
   return (
+    <>
+      <Polygon
+        positions={loc.polygon}
+        pathOptions={{
+          color: hovered || selected ? T.ink : T.ink2,
+          weight: hovered || selected ? 2 : 1.2,
+          fillColor: fill,
+          fillOpacity: hovered ? 0.65 : selected ? 0.7 : 0.48,
+          dashArray: "4 4",
+          lineJoin: "round",
+        }}
+        eventHandlers={{
+          click: () => onSelect(loc.id),
+          mouseover: () => setHover(loc.id),
+          mouseout: () => setHover(null),
+        }}
+      />
+      <Marker
+        position={[loc.lat, loc.lng]}
+        icon={icon}
+        zIndexOffset={selected ? 1000 : hovered ? 500 : 0}
+        eventHandlers={{
+          click: () => onSelect(loc.id),
+          mouseover: () => setHover(loc.id),
+          mouseout: () => setHover(null),
+        }}
+      />
+    </>
+  );
+}
+
+function AptMarker({ apt, hovered, onClick, setHover }) {
+  const icon = useMemo(() => aptPillIcon(apt, hovered), [apt.id, apt.rent, hovered]);
+  return (
     <Marker
-      position={[loc.lat, loc.lng]}
+      position={[apt.lat, apt.lng]}
       icon={icon}
-      zIndexOffset={selected ? 1000 : hovered ? 500 : 0}
+      zIndexOffset={hovered ? 500 : 0}
       eventHandlers={{
-        click: () => onSelect(loc.id),
-        mouseover: () => setHover(loc.id),
+        click: () => onClick(apt),
+        mouseover: () => setHover(apt.id),
         mouseout: () => setHover(null),
       }}
     />
   );
 }
 
-export default function CityMap({ selected, onSelect, hoverId, setHoverId }) {
+// --- main map ---------------------------------------------------------------
+
+export default function CityMap({
+  selected,
+  onSelect,
+  hoverId,
+  setHoverId,
+  drilledInto,
+  setDrilledInto,
+  onAptClick,
+  hoverAptId,
+  setHoverAptId,
+}) {
+  const apartments = drilledInto ? findAptsInLocality(drilledInto) : [];
+  const drilledLoc = drilledInto ? findLocality(drilledInto) : null;
+
   return (
     <MapContainer
       center={CENTER}
-      zoom={ZOOM}
+      zoom={11.5}
+      minZoom={11}
+      maxZoom={17}
+      maxBounds={BLR_BOUNDS}
+      maxBoundsViscosity={1.0}
       scrollWheelZoom
       zoomControl
       style={{ width: "100%", height: "100%", background: "#F5F5F2" }}
     >
-      {/* CARTO Positron — pale, neutral, Airbnb-style minimal tiles. */}
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
         subdomains="abcd"
         maxZoom={19}
+        bounds={BLR_BOUNDS}
       />
 
-      <FlyToSelected selectedId={selected} />
+      <DrillController drilledInto={drilledInto} />
 
-      {LOCALITIES.map((loc) => (
-        <LocalityPin
+      {/* Overview mode — all locality polygons + price pills. */}
+      {!drilledInto && LOCALITIES.map((loc) => (
+        <LocalityZone
           key={loc.id}
           loc={loc}
           selected={selected === loc.id}
           hovered={hoverId === loc.id}
-          onSelect={onSelect}
+          onSelect={(id) => {
+            setDrilledInto(id);
+            onSelect(id);
+          }}
           setHover={setHoverId}
+        />
+      ))}
+
+      {/* Drill-in mode — selected polygon as faint outline + apartment markers. */}
+      {drilledLoc && (
+        <Polygon
+          positions={drilledLoc.polygon}
+          pathOptions={{
+            color: T.ink2,
+            weight: 1.4,
+            fillColor: T.heat[drilledLoc.heat],
+            fillOpacity: 0.18,
+            dashArray: "5 4",
+          }}
+          interactive={false}
+        />
+      )}
+      {drilledInto && apartments.map((apt) => (
+        <AptMarker
+          key={apt.id}
+          apt={apt}
+          hovered={hoverAptId === apt.id}
+          onClick={onAptClick}
+          setHover={setHoverAptId}
         />
       ))}
     </MapContainer>

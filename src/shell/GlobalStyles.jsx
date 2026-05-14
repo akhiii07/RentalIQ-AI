@@ -113,6 +113,52 @@ export default function GlobalStyles() {
       .riq-marker:hover .riq-label,
       .riq-marker.hov .riq-label,
       .riq-marker.sel .riq-label { opacity: 1; transform: translateY(0); }
+
+      /* Drill-in apartment markers — smaller, white, less ornate. */
+      .riq-apt {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        display: flex; flex-direction: column; align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .riq-apt-pill {
+        background: #fff;
+        color: ${T.ink};
+        font-family: 'DM Sans', sans-serif;
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 4px 9px;
+        border-radius: 99px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
+        white-space: nowrap;
+        transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+                    background-color 0.15s, color 0.15s;
+      }
+      .riq-apt:hover .riq-apt-pill, .riq-apt.hov .riq-apt-pill {
+        background: ${T.ink};
+        color: #fff;
+        transform: scale(1.18);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.28);
+      }
+      .riq-apt-label {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 10.5px;
+        font-weight: 500;
+        color: ${T.ink};
+        background: rgba(255,255,255,0.96);
+        padding: 2px 7px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(-2px);
+        transition: opacity 0.15s, transform 0.15s;
+        white-space: nowrap;
+      }
+      .riq-apt:hover .riq-apt-label,
+      .riq-apt.hov .riq-apt-label { opacity: 1; transform: translateY(0); }
     `}</style>
   );
 }
