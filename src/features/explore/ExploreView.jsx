@@ -8,13 +8,12 @@ import DemandPulse from "./DemandPulse";
 
 const DEFAULT_LOCALITY = "koramangala";
 
-export default function ExploreView({ onSelectLocality }) {
+export default function ExploreView({ onSelectApartment }) {
   const [hoverId, setHoverId] = useState(null);
-  const [selected, setSelected] = useState(null);
   const [drilledInto, setDrilledInto] = useState(null);
   const [hoverAptId, setHoverAptId] = useState(null);
 
-  const activeLoc = findLocality(hoverId || drilledInto || selected || DEFAULT_LOCALITY);
+  const activeLoc = findLocality(hoverId || drilledInto || DEFAULT_LOCALITY);
   const drilledLoc = drilledInto ? findLocality(drilledInto) : null;
   const apts = drilledInto ? findAptsInLocality(drilledInto) : [];
 
@@ -34,13 +33,13 @@ export default function ExploreView({ onSelectLocality }) {
               fontFamily: FONTS.sans, fontSize: 11,
               textTransform: "uppercase", letterSpacing: 1.7, color: T.ink3,
             }}>
-              {drilledLoc ? `Drill-in · ${apts.length} listings` : "Live Atlas · 20 areas"}
+              {drilledLoc ? `${drilledLoc.name} · ${apts.length} listings` : "Live Atlas · 20 areas"}
             </div>
             <div style={{
               fontFamily: FONTS.serif, fontSize: 26, fontWeight: 400,
               color: T.ink, marginTop: 2,
             }}>
-              {drilledLoc ? drilledLoc.name : "Bengaluru — Rental Heatmap"}
+              {drilledLoc ? `Listings in ${drilledLoc.name}` : "Bengaluru — Rental Heatmap"}
             </div>
           </div>
           <HeatLegend />
@@ -49,13 +48,11 @@ export default function ExploreView({ onSelectLocality }) {
         <div style={{ position: "relative", paddingBottom: "62%" }}>
           <div style={{ position: "absolute", inset: 0 }}>
             <CityMap
-              selected={selected}
-              onSelect={(id) => { setSelected(id); onSelectLocality(id); }}
               hoverId={hoverId}
               setHoverId={setHoverId}
               drilledInto={drilledInto}
               setDrilledInto={setDrilledInto}
-              onAptClick={(apt) => onSelectLocality(apt.localityId)}
+              onAptClick={onSelectApartment}
               hoverAptId={hoverAptId}
               setHoverAptId={setHoverAptId}
             />
@@ -87,8 +84,8 @@ export default function ExploreView({ onSelectLocality }) {
           </span>
           <span>
             {drilledInto
-              ? "Hover or click a listing to see details"
-              : "Click a zone to drill in to its listings"}
+              ? "Click a listing pill to open its profile"
+              : "Click a zone to zoom in and see its listings"}
           </span>
           <span style={{ marginLeft: "auto", fontFamily: FONTS.mono }}>
             20 areas · {drilledInto ? apts.length : APARTMENTS.length} listings indexed
@@ -97,8 +94,13 @@ export default function ExploreView({ onSelectLocality }) {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        <LocalityReadout locality={activeLoc} hovering={!!hoverId} onDrillIn={onSelectLocality} />
-        <DemandPulse onSelect={onSelectLocality} />
+        <LocalityReadout
+          locality={activeLoc}
+          hovering={!!hoverId}
+          drilledIn={drilledInto === activeLoc.id}
+          onDrillIn={setDrilledInto}
+        />
+        <DemandPulse onSelect={setDrilledInto} />
       </div>
     </div>
   );

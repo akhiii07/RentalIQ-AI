@@ -60,26 +60,26 @@ function DrillController({ drilledInto }) {
 
 // --- marker components ------------------------------------------------------
 
-function LocalityZone({ loc, selected, hovered, onSelect, setHover }) {
+function LocalityZone({ loc, hovered, onDrill, setHover }) {
   const fill = T.heat[loc.heat];
   const icon = useMemo(
-    () => localityPillIcon(loc, selected, hovered),
-    [loc.id, loc.avgRent, loc.trend, selected, hovered]
+    () => localityPillIcon(loc, false, hovered),
+    [loc.id, loc.avgRent, loc.trend, hovered]
   );
   return (
     <>
       <Polygon
         positions={loc.polygon}
         pathOptions={{
-          color: hovered || selected ? T.ink : T.ink2,
-          weight: hovered || selected ? 2 : 1.2,
+          color: hovered ? T.ink : T.ink2,
+          weight: hovered ? 2 : 1.2,
           fillColor: fill,
-          fillOpacity: hovered ? 0.65 : selected ? 0.7 : 0.48,
+          fillOpacity: hovered ? 0.65 : 0.48,
           dashArray: "4 4",
           lineJoin: "round",
         }}
         eventHandlers={{
-          click: () => onSelect(loc.id),
+          click: () => onDrill(loc.id),
           mouseover: () => setHover(loc.id),
           mouseout: () => setHover(null),
         }}
@@ -87,9 +87,9 @@ function LocalityZone({ loc, selected, hovered, onSelect, setHover }) {
       <Marker
         position={[loc.lat, loc.lng]}
         icon={icon}
-        zIndexOffset={selected ? 1000 : hovered ? 500 : 0}
+        zIndexOffset={hovered ? 500 : 0}
         eventHandlers={{
-          click: () => onSelect(loc.id),
+          click: () => onDrill(loc.id),
           mouseover: () => setHover(loc.id),
           mouseout: () => setHover(null),
         }}
@@ -117,8 +117,6 @@ function AptMarker({ apt, hovered, onClick, setHover }) {
 // --- main map ---------------------------------------------------------------
 
 export default function CityMap({
-  selected,
-  onSelect,
   hoverId,
   setHoverId,
   drilledInto,
@@ -157,12 +155,8 @@ export default function CityMap({
         <LocalityZone
           key={loc.id}
           loc={loc}
-          selected={selected === loc.id}
           hovered={hoverId === loc.id}
-          onSelect={(id) => {
-            setDrilledInto(id);
-            onSelect(id);
-          }}
+          onDrill={setDrilledInto}
           setHover={setHoverId}
         />
       ))}

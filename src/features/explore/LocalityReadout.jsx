@@ -9,7 +9,7 @@ import { fmtINR } from "../../utils";
 const demandTone = (demand) =>
   demand === "Very High" ? "clay" : demand === "High" ? "mustard" : "emerald";
 
-export default function LocalityReadout({ locality, hovering, onDrillIn }) {
+export default function LocalityReadout({ locality, hovering, drilledIn, onDrillIn }) {
   const rows = [
     { k: "Safety",                v: locality.safety,  icon: Shield },
     { k: "Connectivity",          v: locality.connect, icon: Train },
@@ -52,13 +52,13 @@ export default function LocalityReadout({ locality, hovering, onDrillIn }) {
         <ScoreFactorList rows={rows} />
       </div>
 
-      <button onClick={() => onDrillIn(locality.id)} style={{
+      <button onClick={() => onDrillIn(drilledIn ? null : locality.id)} style={{
         marginTop: 12, width: "100%", padding: "11px 14px", border: "none",
         background: T.ink, color: T.paper, borderRadius: 10, cursor: "pointer",
         fontFamily: FONTS.sans, fontSize: 13, fontWeight: 500,
         display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7,
       }}>
-        Drill into {locality.name}
+        {drilledIn ? `Back to all localities` : `View listings in ${locality.name}`}
         <ChevronRight size={15} strokeWidth={2} />
       </button>
     </Card>
