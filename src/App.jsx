@@ -31,7 +31,10 @@ export default function App() {
       <GlobalStyles />
       <TopNav onLogoClick={() => setView(VIEWS.EXPLORE)} />
 
-      <main style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 22px 80px" }}>
+      <main style={{
+        width: "min(95%, 2400px)", margin: "0 auto",
+        padding: "32px 0 96px",
+      }}>
         {view === VIEWS.EXPLORE && (
           <div>
             <ExploreHero />

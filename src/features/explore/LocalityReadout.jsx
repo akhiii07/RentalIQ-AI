@@ -24,8 +24,8 @@ export default function LocalityReadout({ locality, hovering, onDrillIn }) {
         <div>
           <Kicker>Locality Read · {hovering ? "Hover" : "Default"}</Kicker>
           <div style={{
-            fontFamily: FONTS.serif, fontSize: 28, fontWeight: 400,
-            color: T.ink, marginTop: 2, lineHeight: 1.1,
+            fontFamily: FONTS.serif, fontSize: 32, fontWeight: 400,
+            color: T.ink, marginTop: 3, lineHeight: 1.1,
           }}>
             {locality.name}
           </div>
@@ -34,8 +34,8 @@ export default function LocalityReadout({ locality, hovering, onDrillIn }) {
       </div>
 
       <div style={{
-        fontFamily: FONTS.serif, fontStyle: "italic", fontSize: 13,
-        color: T.ink3, marginTop: 6, lineHeight: 1.5,
+        fontFamily: FONTS.serif, fontStyle: "italic", fontSize: 14.5,
+        color: T.ink3, marginTop: 8, lineHeight: 1.5,
       }}>
         "{locality.blurb}"
       </div>

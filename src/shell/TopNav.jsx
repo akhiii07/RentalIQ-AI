@@ -44,15 +44,15 @@ function Logo({ onClick }) {
 function SearchBar() {
   return (
     <div style={{
-      flex: 1, maxWidth: 520, margin: "0 auto",
+      flex: 1, maxWidth: 720, margin: "0 auto",
       background: T.card, border: `1px solid ${T.divider}`, borderRadius: 99,
-      padding: "8px 14px", display: "flex", alignItems: "center", gap: 10,
+      padding: "10px 18px", display: "flex", alignItems: "center", gap: 12,
     }}>
-      <Search size={15} color={T.ink3} />
+      <Search size={16} color={T.ink3} />
       <input placeholder="Search a society, locality, or address in Bengaluru…"
              style={{
                background: "transparent", border: "none", outline: "none", flex: 1,
-               fontFamily: FONTS.sans, fontSize: 13, color: T.ink,
+               fontFamily: FONTS.sans, fontSize: 14, color: T.ink,
              }} />
       <Pill tone="ink"><Hash size={10} />3BHK</Pill>
     </div>
@@ -63,9 +63,9 @@ function StatsStrip() {
   return (
     <div style={{ borderTop: `1px solid ${T.divider}`, background: T.paperDark }}>
       <div style={{
-        maxWidth: 1280, margin: "0 auto", padding: "7px 22px",
-        display: "flex", gap: 24, alignItems: "center",
-        fontFamily: FONTS.mono, fontSize: 10.5, color: T.ink3, letterSpacing: 0.5,
+        width: "min(95%, 2400px)", margin: "0 auto", padding: "8px 0",
+        display: "flex", gap: 32, alignItems: "center",
+        fontFamily: FONTS.mono, fontSize: 12.5, color: T.ink3, letterSpacing: 0.5,
       }}>
         <span><b style={{ color: T.ink }}>8,412</b> verified data points</span>
         <span><b style={{ color: T.ink }}>2,140</b> GPS-verified visitors</span>
@@ -87,8 +87,8 @@ export default function TopNav({ onLogoClick }) {
       background: T.paper, position: "sticky", top: 0, zIndex: 30,
     }}>
       <div style={{
-        maxWidth: 1280, margin: "0 auto", padding: "14px 22px",
-        display: "flex", alignItems: "center", gap: 18,
+        width: "min(95%, 2400px)", margin: "0 auto", padding: "16px 0",
+        display: "flex", alignItems: "center", gap: 22,
       }}>
         <Logo onClick={onLogoClick} />
         <SearchBar />

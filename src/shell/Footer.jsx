@@ -8,9 +8,9 @@ export default function Footer() {
       background: T.paperDark, marginTop: 60,
     }}>
       <div style={{
-        maxWidth: 1280, margin: "0 auto", padding: "22px",
+        width: "min(95%, 2400px)", margin: "0 auto", padding: "26px 0",
         display: "flex", justifyContent: "space-between", alignItems: "center",
-        fontFamily: FONTS.sans, fontSize: 11, color: T.ink3,
+        fontFamily: FONTS.sans, fontSize: 13, color: T.ink3,
       }}>
         <div>RentalIQ AI · Prototype MVP · For demonstration only</div>
         <div style={{ display: "flex", gap: 18 }}>

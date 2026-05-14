@@ -13,25 +13,25 @@ export default function ExploreView({ onSelectLocality }) {
   const activeLoc = findLocality(hoverId || selected || DEFAULT_LOCALITY);
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 20, height: "100%" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 440px", gap: 24, height: "100%" }}>
       <div style={{
         background: T.card, border: `1px solid ${T.divider}`, borderRadius: 14,
         overflow: "hidden", position: "relative", boxShadow: "0 1px 0 rgba(0,0,0,0.02)",
       }}>
         <div style={{
           display: "flex", justifyContent: "space-between", alignItems: "center",
-          padding: "14px 18px", borderBottom: `1px solid ${T.divider}`,
+          padding: "18px 24px", borderBottom: `1px solid ${T.divider}`,
         }}>
           <div>
             <div style={{
-              fontFamily: FONTS.sans, fontSize: 10,
-              textTransform: "uppercase", letterSpacing: 1.6, color: T.ink3,
+              fontFamily: FONTS.sans, fontSize: 11,
+              textTransform: "uppercase", letterSpacing: 1.7, color: T.ink3,
             }}>
               Atlas · Sheet 01
             </div>
             <div style={{
-              fontFamily: FONTS.serif, fontSize: 22, fontWeight: 400,
-              color: T.ink, marginTop: 1,
+              fontFamily: FONTS.serif, fontSize: 26, fontWeight: 400,
+              color: T.ink, marginTop: 2,
             }}>
               Bengaluru — South & East Rental Belt
             </div>
@@ -47,9 +47,9 @@ export default function ExploreView({ onSelectLocality }) {
         </div>
 
         <div style={{
-          display: "flex", gap: 18, padding: "12px 18px",
+          display: "flex", gap: 22, padding: "14px 24px",
           borderTop: `1px solid ${T.divider}`, fontFamily: FONTS.sans,
-          fontSize: 11, color: T.ink3,
+          fontSize: 12, color: T.ink3,
         }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
             <span style={{ width: 14, height: 2, background: T.clay, opacity: 0.6,

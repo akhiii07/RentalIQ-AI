@@ -20,8 +20,8 @@ export default function SocietyHeader({ society, locality, onBack, onPricing }) 
         <div>
           <Pill tone="default">Society profile</Pill>
           <h1 style={{
-            fontFamily: FONTS.serif, fontSize: 44, fontWeight: 400,
-            color: T.ink, margin: "6px 0 4px", letterSpacing: -0.5, lineHeight: 1.05,
+            fontFamily: FONTS.serif, fontSize: 52, fontWeight: 400,
+            color: T.ink, margin: "8px 0 6px", letterSpacing: -0.7, lineHeight: 1.05,
           }}>
             {society.name}
           </h1>
