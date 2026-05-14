@@ -5,7 +5,7 @@ import { T } from "../../theme";
 import { LOCALITIES, BLR_BOUNDS, findLocality, findAptsInLocality } from "../../data";
 import { fmtINRk } from "../../utils";
 
-const CENTER = [12.955, 77.620];
+const CENTER = [12.970, 77.640];
 
 // --- icon factories ---------------------------------------------------------
 
@@ -69,7 +69,9 @@ function aptPillIcon(apt, hovered) {
 
 // --- map controllers --------------------------------------------------------
 
-// Animate camera to (lat,lng) at target zoom when drilled-in changes.
+// On first mount, fit the camera to the Bengaluru rental belt so all
+// 20 localities fill the visible map. Subsequent drill-in events fly to a
+// closer zoom; drill-out fits back to the bounds.
 function DrillController({ drilledInto }) {
   const map = useMap();
   useEffect(() => {
@@ -77,7 +79,9 @@ function DrillController({ drilledInto }) {
       const loc = findLocality(drilledInto);
       if (loc) map.flyTo([loc.lat, loc.lng], 15.5, { duration: 0.9 });
     } else {
-      map.flyTo(CENTER, 12, { duration: 0.9 });
+      map.flyBounds
+        ? map.flyBounds(BLR_BOUNDS, { duration: 0.9, padding: [16, 16] })
+        : map.fitBounds(BLR_BOUNDS, { padding: [16, 16] });
     }
   }, [drilledInto, map]);
   return null;
@@ -97,10 +101,10 @@ function LocalityZone({ loc, hovered, onDrill, setHover }) {
         positions={loc.polygon}
         pathOptions={{
           color: hovered ? T.ink : T.ink2,
-          weight: hovered ? 2 : 1.2,
+          weight: hovered ? 2.2 : 1.4,
           fillColor: fill,
-          fillOpacity: hovered ? 0.65 : 0.48,
-          dashArray: "4 4",
+          fillOpacity: hovered ? 0.78 : 0.6,
+          dashArray: "5 4",
           lineJoin: "round",
         }}
         eventHandlers={{
@@ -156,13 +160,14 @@ export default function CityMap({
   return (
     <MapContainer
       center={CENTER}
-      zoom={12}
-      minZoom={11}
+      zoom={12.5}
+      minZoom={12}
       maxZoom={18}
       maxBounds={BLR_BOUNDS}
       maxBoundsViscosity={1.0}
       scrollWheelZoom
       zoomControl
+      zoomSnap={0.25}
       style={{ width: "100%", height: "100%", background: "#F5F5F2" }}
     >
       <TileLayer

@@ -50,7 +50,7 @@ export default function GlobalStyles() {
         position: absolute;
         transform: translate(-50%, -50%);
         display: flex; flex-direction: column; align-items: center;
-        gap: 6px;
+        gap: 8px;
         cursor: pointer;
         user-select: none;
         will-change: transform;
@@ -59,60 +59,66 @@ export default function GlobalStyles() {
         background: #fff;
         color: ${T.ink};
         font-family: 'DM Sans', sans-serif;
-        font-size: 13px;
         font-weight: 600;
-        padding: 7px 12px;
+        padding: 12px 20px;
         border-radius: 99px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.20), 0 0 0 1.5px rgba(0,0,0,0.10);
         white-space: nowrap;
-        display: inline-flex; align-items: center; gap: 7px;
+        display: inline-flex; align-items: center; gap: 11px;
         transition: transform 0.18s ease-out, box-shadow 0.18s ease-out,
                     background-color 0.18s, color 0.18s;
       }
       .riq-dot {
-        width: 7px; height: 7px; border-radius: 99px;
+        width: 14px; height: 14px; border-radius: 99px;
         display: inline-block;
-        box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+        box-shadow: 0 0 0 2.5px rgba(255,255,255,0.8);
       }
-      .riq-price { letter-spacing: -0.1px; }
+      .riq-price { letter-spacing: -0.2px; font-size: 20px; font-weight: 700; }
       .riq-trend {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 10.5px;
+        font-size: 14px;
         font-weight: 500;
         color: ${T.ink3};
         letter-spacing: 0.2px;
       }
       .riq-marker:hover .riq-pill, .riq-marker.hov .riq-pill {
         transform: scale(1.12);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.24), 0 0 0 1.5px rgba(0,0,0,0.12);
       }
       .riq-marker.sel .riq-pill {
         background: ${T.ink};
         color: #fff;
         transform: scale(1.18);
-        box-shadow: 0 8px 22px rgba(0,0,0,0.32);
+        box-shadow: 0 10px 26px rgba(0,0,0,0.34);
       }
       .riq-marker.sel .riq-trend { color: rgba(255,255,255,0.78); }
-      .riq-marker.sel .riq-dot { box-shadow: 0 0 0 2px rgba(255,255,255,0.18); }
+      .riq-marker.sel .riq-dot { box-shadow: 0 0 0 2.5px rgba(255,255,255,0.20); }
       .riq-label {
         font-family: 'Fraunces', serif;
-        font-size: 12.5px;
-        font-weight: 500;
+        font-size: 17px;
+        font-weight: 600;
         color: ${T.ink};
-        background: rgba(255,255,255,0.97);
-        padding: 3px 10px;
-        border-radius: 7px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.14);
+        background: rgba(255,255,255,0.98);
+        padding: 5px 14px;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.16);
         pointer-events: none;
-        opacity: 0;
-        transform: translateY(-3px);
-        transition: opacity 0.18s, transform 0.18s;
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.18s, transform 0.18s, background-color 0.18s, color 0.18s;
         white-space: nowrap;
-        letter-spacing: 0.1px;
+        letter-spacing: 0.15px;
       }
       .riq-marker:hover .riq-label,
-      .riq-marker.hov .riq-label,
-      .riq-marker.sel .riq-label { opacity: 1; transform: translateY(0); }
+      .riq-marker.hov .riq-label {
+        background: ${T.ink};
+        color: #fff;
+        transform: translateY(-1px);
+      }
+      .riq-marker.sel .riq-label {
+        background: ${T.ink};
+        color: #fff;
+      }
 
       /* Drill-in apartment markers — smaller, white, less ornate. */
       .riq-apt {

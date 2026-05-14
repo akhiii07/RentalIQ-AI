@@ -19,8 +19,8 @@ const mulberry32 = (seed) => {
   };
 };
 
-// Irregular ~7-sided polygon around (lat, lng), radius ~baseR° (≈1 km).
-const makePolygon = (lat, lng, seed, baseR = 0.009) => {
+// Irregular ~7-sided polygon around (lat, lng), radius ~baseR° (≈1.4 km).
+const makePolygon = (lat, lng, seed, baseR = 0.013) => {
   const rng = mulberry32(hashCode(seed));
   const sides = 7;
   return Array.from({ length: sides }, (_, i) => {
@@ -111,8 +111,11 @@ export const LOCALITIES = RAW.map((loc) => ({
 
 export const findLocality = (id) => LOCALITIES.find((l) => l.id === id);
 
-// Bounds the map view should never escape (rough Bengaluru envelope).
+// Bounds the map view should never escape — tightened around the dense
+// rental core so the visible map fills with locality polygons instead of
+// suburban whitespace. Electronic City (S) and Yelahanka (N) sit just
+// inside the edges; the bulk of the 20 areas cluster centrally.
 export const BLR_BOUNDS = [
-  [12.78, 77.45],
-  [13.15, 77.80],
+  [12.84, 77.53],
+  [13.06, 77.76],
 ];
