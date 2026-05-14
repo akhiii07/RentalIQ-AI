@@ -30,11 +30,36 @@ function localityPillIcon(loc, selected, hovered) {
 }
 
 function aptPillIcon(apt, hovered) {
+  // Building height varies by total floors → taller tower for taller buildings.
+  const floors = Math.max(4, Math.min(8, Math.round(apt.totalFloors / 3)));
+  const winRows = [];
+  for (let row = 0; row < floors; row++) {
+    const y = 9 + row * 4.2;
+    winRows.push(
+      `<rect x="6"  y="${y}" width="3" height="2.6" rx="0.4"/>` +
+      `<rect x="11" y="${y}" width="3" height="2.6" rx="0.4"/>` +
+      `<rect x="16" y="${y}" width="3" height="2.6" rx="0.4"/>` +
+      `<rect x="21" y="${y}" width="3" height="2.6" rx="0.4"/>`
+    );
+  }
+  const bldgHeight = 9 + floors * 4.2 + 3; // bottom padding
   return L.divIcon({
     className: "riq-marker-wrap",
     html: `
       <div class="riq-apt ${hovered ? "hov" : ""}">
         <div class="riq-apt-pill">${fmtINRk(apt.rent)}</div>
+        <div class="riq-apt-bldg" aria-hidden="true">
+          <svg width="30" height="${bldgHeight + 4}" viewBox="0 0 30 ${bldgHeight + 4}" fill="none">
+            <!-- roof slab -->
+            <rect x="3" y="4" width="24" height="3" rx="1" class="riq-bldg-roof" />
+            <!-- body -->
+            <rect x="3" y="6" width="24" height="${bldgHeight - 4}" rx="2" class="riq-bldg-body" />
+            <!-- windows -->
+            <g class="riq-bldg-win">${winRows.join("")}</g>
+            <!-- door -->
+            <rect x="13" y="${bldgHeight - 1}" width="4" height="3" rx="0.4" class="riq-bldg-door" />
+          </svg>
+        </div>
         <div class="riq-apt-label">${apt.bhk}BHK · ${apt.name}</div>
       </div>`,
     iconSize: [0, 0],
@@ -50,9 +75,9 @@ function DrillController({ drilledInto }) {
   useEffect(() => {
     if (drilledInto) {
       const loc = findLocality(drilledInto);
-      if (loc) map.flyTo([loc.lat, loc.lng], 15, { duration: 0.9 });
+      if (loc) map.flyTo([loc.lat, loc.lng], 15.5, { duration: 0.9 });
     } else {
-      map.flyTo(CENTER, 11.5, { duration: 0.9 });
+      map.flyTo(CENTER, 12, { duration: 0.9 });
     }
   }, [drilledInto, map]);
   return null;
@@ -131,9 +156,9 @@ export default function CityMap({
   return (
     <MapContainer
       center={CENTER}
-      zoom={11.5}
+      zoom={12}
       minZoom={11}
-      maxZoom={17}
+      maxZoom={18}
       maxBounds={BLR_BOUNDS}
       maxBoundsViscosity={1.0}
       scrollWheelZoom

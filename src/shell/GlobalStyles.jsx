@@ -159,6 +159,27 @@ export default function GlobalStyles() {
       }
       .riq-apt:hover .riq-apt-label,
       .riq-apt.hov .riq-apt-label { opacity: 1; transform: translateY(0); }
+
+      /* Building glyph beneath the price ribbon. */
+      .riq-apt-bldg {
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18));
+        transition: transform 0.18s ease-out;
+      }
+      .riq-apt:hover .riq-apt-bldg, .riq-apt.hov .riq-apt-bldg {
+        transform: translateY(-1px) scale(1.08);
+      }
+      .riq-bldg-roof { fill: ${T.ink}; }
+      .riq-bldg-body { fill: #FBF8F1; stroke: ${T.ink}; stroke-width: 1.1; }
+      .riq-bldg-win  { fill: ${T.ink}; opacity: 0.22; }
+      .riq-bldg-door { fill: ${T.ink}; opacity: 0.6; }
+      .riq-apt:hover .riq-bldg-body,
+      .riq-apt.hov  .riq-bldg-body { fill: ${T.ink}; }
+      .riq-apt:hover .riq-bldg-win,
+      .riq-apt.hov  .riq-bldg-win { fill: ${T.mustard}; opacity: 0.85; }
+      .riq-apt:hover .riq-bldg-roof,
+      .riq-apt.hov  .riq-bldg-roof { fill: ${T.clay}; }
+      .riq-apt:hover .riq-bldg-door,
+      .riq-apt.hov  .riq-bldg-door { fill: ${T.mustard}; opacity: 1; }
     `}</style>
   );
 }

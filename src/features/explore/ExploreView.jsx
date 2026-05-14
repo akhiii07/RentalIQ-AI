@@ -18,7 +18,7 @@ export default function ExploreView({ onSelectApartment }) {
   const apts = drilledInto ? findAptsInLocality(drilledInto) : [];
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 440px", gap: 24, height: "100%" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 24, height: "100%" }}>
       <div style={{
         background: T.card, border: `1px solid ${T.divider}`, borderRadius: 18,
         overflow: "hidden", position: "relative",
@@ -45,7 +45,10 @@ export default function ExploreView({ onSelectApartment }) {
           <HeatLegend />
         </div>
 
-        <div style={{ position: "relative", paddingBottom: "62%" }}>
+        <div style={{
+          position: "relative",
+          height: "clamp(620px, calc(100vh - 280px), 880px)",
+        }}>
           <div style={{ position: "absolute", inset: 0 }}>
             <CityMap
               hoverId={hoverId}

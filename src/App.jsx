@@ -85,6 +85,7 @@ export default function App() {
             onBack={() => setView(VIEWS.EXPLORE)}
             onPricing={() => setView(VIEWS.PRICING)}
             onAddReview={() => setShowReview(true)}
+            onToast={setToast}
           />
         )}
 
