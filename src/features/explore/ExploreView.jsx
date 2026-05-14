@@ -15,8 +15,9 @@ export default function ExploreView({ onSelectLocality }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 440px", gap: 24, height: "100%" }}>
       <div style={{
-        background: T.card, border: `1px solid ${T.divider}`, borderRadius: 14,
-        overflow: "hidden", position: "relative", boxShadow: "0 1px 0 rgba(0,0,0,0.02)",
+        background: T.card, border: `1px solid ${T.divider}`, borderRadius: 18,
+        overflow: "hidden", position: "relative",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.06), 0 1px 0 rgba(0,0,0,0.02)",
       }}>
         <div style={{
           display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -27,7 +28,7 @@ export default function ExploreView({ onSelectLocality }) {
               fontFamily: FONTS.sans, fontSize: 11,
               textTransform: "uppercase", letterSpacing: 1.7, color: T.ink3,
             }}>
-              Atlas · Sheet 01
+              Live Atlas · 8 areas
             </div>
             <div style={{
               fontFamily: FONTS.serif, fontSize: 26, fontWeight: 400,
@@ -39,7 +40,7 @@ export default function ExploreView({ onSelectLocality }) {
           <HeatLegend />
         </div>
 
-        <div style={{ position: "relative", paddingBottom: "60%" }}>
+        <div style={{ position: "relative", paddingBottom: "62%" }}>
           <div style={{ position: "absolute", inset: 0 }}>
             <CityMap selected={selected} onSelect={(id) => { setSelected(id); onSelectLocality(id); }}
                      hoverId={hoverId} setHoverId={setHoverId} />
@@ -47,23 +48,16 @@ export default function ExploreView({ onSelectLocality }) {
         </div>
 
         <div style={{
-          display: "flex", gap: 22, padding: "14px 24px",
+          display: "flex", gap: 22, padding: "14px 24px", alignItems: "center",
           borderTop: `1px solid ${T.divider}`, fontFamily: FONTS.sans,
           fontSize: 12, color: T.ink3,
         }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-            <span style={{ width: 14, height: 2, background: T.clay, opacity: 0.6,
-              borderTop: `1px dashed ${T.clay}` }} />
-            Metro line
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+            <span style={{ width: 7, height: 7, borderRadius: 99, background: T.emerald }} />
+            Live OpenStreetMap tiles · CARTO
           </span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-            <span style={{ width: 14, height: 2, borderTop: `1px dashed ${T.ink2}` }} />
-            Outer Ring Road
-          </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-            <span style={{ width: 10, height: 6, background: T.sky, opacity: 0.4,
-              borderRadius: 2 }} />
-            Lake
+            Click a pill to drill into a locality
           </span>
           <span style={{ marginLeft: "auto", fontFamily: FONTS.mono }}>
             Updated 14 May · 8,412 verified data points
